@@ -1,24 +1,27 @@
-let btnMeme=document.getElementById("btnMeme")
+let btnMeme=document.getElementById("btnDad")
 btnMeme.addEventListener('click',e=>{
-    fetch("https://api.imgflip.com/get_memes")
+    fetch("https://icanhazdadjoke.com/",{
+        headers:{
+            Accept:"application/json",
+        },
+    })
     .then(function(result){
-        //console.log(result)
         return result.json()
     },function(error){})
-    .then((jsonRes)=>{return jsonRes.data.memes})
+    .then((jsonRes)=>{
+        return jsonRes
+    })
     .then((data)=>{ 
-        let meme=Object.keys(data)
-        let randomMeme=meme[parseInt(Math.random()*meme.length)]
-       
-        if(document.getElementById("meme_img")){
-            let img=document.getElementById("meme_img")
-            img.setAttribute('src',data[randomMeme].url)
+        if(document.getElementById("joke")){
+            let div=document.getElementById("joke")
+            div.innerHTML=data.joke
         }else{
-            //first time pressing the button after page load
             let div=document.createElement("div")
-            div.innerHTML=`<img id="meme_img" src="${data[randomMeme].url}"/>`
-            document.getElementById("memes").append(div)
+            div.innerHTML=`<div id="joke">${data.joke}</div>`
+            document.getElementById("dadJokes").append(div)
         }
+       
+
         
     })
 })
